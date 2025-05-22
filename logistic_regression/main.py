@@ -37,7 +37,7 @@ def main():
 
     # Initialize model
     logging.info(f"Initializing model with lr={args.lr}, iters={args.iters}")
-    model = LogisticRegression(learning_rate=args.lr, num_iterations=args.iters, print_cost=args.verbose)
+    model = LogisticRegression(learning_rate=args.lr, num_iterations=args.iters, print_cost=True)
 
     # Train model
     logging.info("Training model...")

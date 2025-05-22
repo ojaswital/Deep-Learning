@@ -1,7 +1,8 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class LogisticRegression:
-    def __init__(self, learning_rate=0.01, num_iterations=2000, print_cost=False):
+    def __init__(self, learning_rate=0.01, num_iterations=2000, print_cost=True):
         # Initialize hyperparameters
         self.learning_rate = learning_rate
         self.num_iterations = num_iterations
@@ -46,6 +47,12 @@ class LogisticRegression:
                 self.costs.append(cost)
                 if self.print_cost:
                     print(f"Cost after iteration {i}: {cost}")
+
+        plt.plot(self.costs)
+        plt.ylabel('cost')
+        plt.xlabel('iterations (per hundreds)')
+        plt.title("Learning rate =" + str(self.learning_rate))
+        plt.show()
 
     def fit(self, X, Y):
         # Train the model
