@@ -4,45 +4,65 @@ import pydicom, torch
 import os
 import glob
 
-class RSNATrainDataset(Dataset):
-    def __init__(self, df, root, transform=None):
-        self.df = df.drop_duplicates(subset='patientId')
-        self.root = root
-        self.transform = transform or transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize(256),
-            transforms.CenterCrop(256),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,))
-        ])
-    def __len__(self):
-        return len(self.df)
-    def __getitem__(self, idx):
-        pid = self.df.iloc[idx].patientId
-        dcm = pydicom.dcmread(f"{self.root}/{pid}.dcm")
-        img = dcm.pixel_array.astype('float32')
-        img = self.transform(img[..., None])
-        return img
 
+class RSNADataset(Dataset):
+    """
+    Custom PyTorch Dataset for loading RSNA chest X-ray images stored in .dcm format.
 
-class RSNATestDataset(Dataset):
+    This dataset reads DICOM files from a specified root directory, applies optional
+    transformations, and returns normalized images as PyTorch tensors.
+
+    Parameters:
+    -----------
+    root : str
+        Path to the directory containing .dcm files.
+    transform : torchvision.transforms.Compose, optional
+        A set of transformations to apply to the image. If None, a default
+        transformation pipeline is used.
+
+    Attributes:
+    -----------
+    paths : list
+        List of full file paths to .dcm files.
+    transform : torchvision.transforms.Compose
+        Composed transformation pipeline to apply to each image.
+    """
+
     def __init__(self, root, transform=None):
-        # Grab all .dcm paths under root
+        # Collect all .dcm file paths from the given root directory
         self.paths = sorted(glob.glob(os.path.join(root, "*.dcm")))
+
+        # Define default transformations if none are provided
         self.transform = transform or transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize(256),
-            transforms.CenterCrop(256),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,))
+            transforms.ToPILImage(),             # Convert numpy array to PIL Image
+            transforms.Resize(256),              # Resize shorter side to 256
+            transforms.CenterCrop(256),          # Crop center 256x256 region
+            transforms.ToTensor(),               # Convert to torch.Tensor and scale to [0, 1]
+            transforms.Normalize((0.5,), (0.5,))  # Normalize to [-1, 1]
         ])
 
     def __len__(self):
+        """Return the total number of .dcm files."""
         return len(self.paths)
 
     def __getitem__(self, idx):
+        """
+        Load and return a transformed image from the dataset.
+
+        Parameters:
+        -----------
+        idx : int
+            Index of the image to retrieve.
+
+        Returns:
+        --------
+        torch.Tensor
+            Transformed image tensor of shape [1, 256, 256] with values in [-1, 1].
+        """
         path = self.paths[idx]
-        dcm  = pydicom.dcmread(path)
-        img  = dcm.pixel_array.astype("float32")
-        img  = self.transform(img[..., None])
+        dcm = pydicom.dcmread(path)
+        img = dcm.pixel_array.astype("float32")
+
+        # DICOM images are grayscale; add channel dimension before transforming
+        img = self.transform(img[..., None])
         return img

@@ -4,23 +4,40 @@ import os
 import argparse
 from torch.utils.data import DataLoader
 
-from general_utils.data_loader import RSNATestDataset
+from general_utils.data_loader import RSNADataset
 from src.wgan.train import train_wgan_gp
 from src.diffusion.train import train_diffusion
 from general_utils.plotting import visualize_data
 
 
 def main(config_path: str, model_name: str):
-    # 1) Load YAML config
+    """
+    Main entry point for training GAN or diffusion models using a provided YAML config.
+
+    Parameters:
+    -----------
+    config_path : str
+        Path to the YAML configuration file.
+
+    model_name : str
+        Name of the model to train. Must be either 'wgan' or 'diffusion'.
+    """
+    # ------------------------
+    # Load Configuration
+    # ------------------------
     with open(config_path, 'r') as f:
         cfg = yaml.safe_load(f)
 
-    # 2) Device
+    # ------------------------
+    # Select Device
+    # ------------------------
     device = torch.device(cfg['device'] if torch.cuda.is_available() else 'cpu')
 
-    # 3) Dataset & DataLoader
+    # ------------------------
+    # Load Dataset & DataLoader
+    # ------------------------
     ds_cfg = cfg['dataset']
-    dataset = RSNATestDataset(ds_cfg['root'])
+    dataset = RSNADataset(ds_cfg['root'])
     dataloader = DataLoader(
         dataset,
         batch_size=ds_cfg['batch_size'],
@@ -29,22 +46,31 @@ def main(config_path: str, model_name: str):
         pin_memory=ds_cfg['pin_memory']
     )
 
-    visualize_data(dataloader, os.path.join(cfg['save_dir'], cfg['model']['checkpoints_folder']))
+    # ------------------------
+    # Visualize Sample Batch
+    # ------------------------
+    save_dir = os.path.join(cfg['save']['save_dir'], cfg['save']['checkpoints_folder'])
+    visualize_data(next(iter(dataloader)), save_dir)
 
-    # Model & training
+    # ------------------------
+    # Model Training
+    # ------------------------
     if model_name == 'wgan':
+        # Train Wasserstein GAN with gradient penalty
         lossD_vals, lossG_vals = train_wgan_gp(
             dataloader=dataloader,
             device=device,
             cfg=cfg
         )
     elif model_name == 'diffusion':
+        # Train denoising diffusion probabilistic model
         loss_vals = train_diffusion(
             dataloader=dataloader,
-            device =device,
+            device=device,
             cfg=cfg
         )
-
+    else:
+        raise ValueError(f"Unknown model_name: {model_name}. Use 'wgan' or 'diffusion'.")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Train WGAN-GP via config file")
