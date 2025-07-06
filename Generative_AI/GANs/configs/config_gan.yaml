@@ -3,6 +3,7 @@ device: "cuda"           # or 'cpu'
 # Dataset / DataLoader parameters
 dataset:
   root:  "/content/drive/MyDrive/Colab_Notebooks/Chest_Xray_Synthesis_GAN_RSNA/rsna-pneumonia-detection-challenge/stage_2_train_images"
+  test_root: "/content/drive/MyDrive/Colab_Notebooks/Chest_Xray_Synthesis_GAN_RSNA/rsna-pneumonia-detection-challenge/stage_2_test_images"
   batch_size: 64
   shuffle: True
   num_workers: 4

@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 
 from general_utils.data_loader import RSNADataset
 from src.wgan.evaluate import evaluate_wgan_stats
-#from src.diffusion.evaluate import evaluate_diffusion_stats
+from src.diffusion.evaluate import evaluate_diffusion_stats
 from general_utils.plotting import visualize_data
 
 
@@ -34,10 +34,10 @@ def main(config_path: str, model_name: str):
     device = torch.device(cfg['device'] if torch.cuda.is_available() else 'cpu')
 
     # ------------------------
-    # Load Dataset & DataLoader
+    # Load Test Dataset & DataLoader
     # ------------------------
     ds_cfg = cfg['dataset']
-    dataset = RSNADataset(ds_cfg['root'])
+    dataset = RSNADataset(ds_cfg['test_root'])
     dataloader = DataLoader(
         dataset,
         batch_size=ds_cfg['batch_size'],
@@ -57,7 +57,7 @@ def main(config_path: str, model_name: str):
         )
         visualize_data(next(iter(fake_loader)), os.path.join(cfg['save']['save_dir'], cfg['save']['checkpoints_folder'], cfg['output']['results_folder']))
     elif model_name == 'diffusion':
-        loss_vals = train_diffusion(
+        loss_vals = evaluate_diffusion_stats(
             dataloader=dataloader,
             device=device,
             cfg=cfg
