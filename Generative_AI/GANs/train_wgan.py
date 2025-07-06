@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 import yaml
+import os
 import argparse
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
@@ -28,6 +29,10 @@ def train_wgan_gp(
     """
     Train a WGAN-GP with optional instance noise and multiple generator steps per discriminator step.
     """
+    # Ensure the checkpoint directory exists
+    ckpt_dir = os.path.join(save_dir, checkpoints_folder)
+    os.makedirs(ckpt_dir, exist_ok=True)
+
     # Move models to device
     G.to(device)
     D.to(device)
@@ -40,6 +45,7 @@ def train_wgan_gp(
 
     # Main training loop
     for epoch in range(1, num_epochs + 1):
+        print(f"Epoch {epoch}/{num_epochs}")
         epoch_d, epoch_g = 0.0, 0.0
 
         for real in dataloader:
@@ -95,7 +101,7 @@ def train_wgan_gp(
         plt.title('GAN Training Loss Curves')
         plt.legend()
         plt.grid(True)
-        plt.save(save_dir + f"/Epoch_Loss_Generator_Discriminator.png")
+        plt.imsave(save_dir + f"/Epoch_Loss_Generator_Discriminator.png")
 
     return lossD_vals, lossG_vals
 
