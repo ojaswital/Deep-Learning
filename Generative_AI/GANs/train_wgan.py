@@ -101,7 +101,9 @@ def train_wgan_gp(
         plt.title('GAN Training Loss Curves')
         plt.legend()
         plt.grid(True)
-        plt.imsave(save_dir + f"/Epoch_Loss_Generator_Discriminator.png")
+        plt.savefig(save_dir + f"/Epoch_Loss_Generator_Discriminator.png", dpi=300,
+    bbox_inches='tight',
+    pad_inches=0)
 
     return lossD_vals, lossG_vals
 
@@ -124,7 +126,7 @@ def main(config_path: str):
         pin_memory=ds_cfg['pin_memory']
     )
 
-    visualize_data(dataloader, cfg['save_dir'])
+    visualize_data(dataloader, os.path.join(cfg['save_dir'], cfg['checkpoints_folder']))
 
     # Model & training
     mdl_cfg = cfg['model']
@@ -142,7 +144,7 @@ def main(config_path: str):
         instance_noise_std=mdl_cfg['instance_noise_std'],
         G_steps_per_D=mdl_cfg['G_steps_per_D'],
         checkpoints_folder=mdl_cfg['checkpoints_folder'],
-        main_dir=cfg['save_dir']
+        save_dir=cfg['save_dir']
     )
 
 
