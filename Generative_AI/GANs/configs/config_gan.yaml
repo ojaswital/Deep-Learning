@@ -1,6 +1,4 @@
-# Device and paths
 device: "cuda"           # or 'cpu'
-main_dir: "/content/drive/MyDrive/Colab_Notebooks/Chest_Xray_Synthesis_GAN_RSNA/rsna-pneumonia-detection-challenge"
 
 # Dataset / DataLoader parameters
 dataset:
@@ -19,7 +17,8 @@ model:
   betas: [0.5, 0.999]
   instance_noise_std: 0.05
   G_steps_per_D: 2
-  checkpoints_folder: "checkpoints_test"
 
-# Where to save intermediate outputs
-save_dir: "/content/drive/MyDrive/Colab_Notebooks/Chest_Xray_Synthesis_GAN_RSNA/rsna-pneumonia-detection-challenge"
+# Saving outputs
+save:
+  save_dir: "/content/drive/MyDrive/Colab_Notebooks/Chest_Xray_Synthesis_GAN_RSNA/rsna-pneumonia-detection-challenge"
+  checkpoints_folder: "checkpoints_gan"

@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 import scipy.stats as stats
+import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader, TensorDataset
 from torchvision import transforms
@@ -22,7 +23,7 @@ def to_rgb299(x_uint8):
     ).to(torch.uint8)
 
 
-def evaluate_gan_stats(dataloader_real, generator, device, z_dim):
+def evaluate_wgan_stats(dataloader_real, generator, device, z_dim):
     # 1. Generate fake images matching real dataset size
     num_real = len(dataloader_real.dataset)
     batch_size = dataloader_real.batch_size

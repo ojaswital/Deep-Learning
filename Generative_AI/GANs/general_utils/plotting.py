@@ -12,6 +12,6 @@ def visualize_data(dataloader, save_dir):
     plt.figure(figsize=(6,6))
     plt.axis('off')
     plt.imshow(grid.permute(1,2,0), cmap='gray')
-    plt.imsave(save_dir + f"Train_images_first_16", dpi=300,
+    plt.savefig(save_dir + f"Train_images_first_16", dpi=300,
     bbox_inches='tight',
     pad_inches=0)
