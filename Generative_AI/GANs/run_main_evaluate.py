@@ -10,7 +10,7 @@ from src.diffusion.evaluate import evaluate_diffusion_stats
 from general_utils.plotting import visualize_data
 
 
-def main(config_path: str, model_name: str):
+def main(config_path: str):
     """
         Main entry point for evaluating GAN or diffusion models using a provided YAML config.
 
@@ -18,9 +18,6 @@ def main(config_path: str, model_name: str):
         -----------
         config_path : str
             Path to the YAML configuration file.
-
-        model_name : str
-            Name of the model to evaluate. Must be either 'wgan' or 'diffusion'.
         """
     # ------------------------
     # Load Configuration
@@ -50,6 +47,7 @@ def main(config_path: str, model_name: str):
     # ------------------------
     # Model Evaluation
     # ------------------------
+    model_name = cfg['model']['name']
     if model_name == 'wgan':
         print("--- Evaluating WGAN GP model ---")
         fake_loader = evaluate_wgan_stats(
@@ -76,12 +74,6 @@ if __name__ == '__main__':
         type=str,
         default='config_gan.yaml',
         help='Path to YAML configuration file'
-    )
-    parser.add_argument(
-        '--model', '-m',
-        type=str,
-        default='wgan',
-        help='Name of model to use - wgan or diffusion'
     )
     args = parser.parse_args()
     main(args.config, args.model)

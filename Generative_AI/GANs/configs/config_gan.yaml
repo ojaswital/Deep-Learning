@@ -11,6 +11,7 @@ dataset:
 
 # Model / training hyperparameters
 model:
+  name: "wgan"
   z_dim: 100
   num_epochs: 50
   lr_G: 0.0003

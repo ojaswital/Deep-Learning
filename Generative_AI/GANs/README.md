@@ -1,6 +1,6 @@
 ## Generative Adversarial Networks for Medical Image Synthesis
 
-This project implements **Wasserstein GAN with Gradient Penalty (WGAN-GP)** and **Denoising Diffusion Probabilistic Models (DDPM)** to generate high-resolution **chest X-ray images** from the RSNA Pneumonia Detection dataset. It includes support for visualization, statistical evaluation, and configurable training using YAML files.  
+#### This project implements **Wasserstein GAN with Gradient Penalty (WGAN-GP)** and **Denoising Diffusion Probabilistic Models (DDPM)** to generate high-resolution **chest X-ray images** from the RSNA Pneumonia Detection dataset. It includes support for visualization, statistical evaluation, and configurable training using YAML files.  
     Tech Stack: PyTorch, TorchMetrics, FID/KID, NumPy, Matplotlib, DICOM
 ---
 
@@ -9,8 +9,7 @@ This project implements **Wasserstein GAN with Gradient Penalty (WGAN-GP)** and 
 ```
 Deep-Learning/
 └── Generative_AI/
-    ├── README.md  
-    ├── requirements.txt         # library versions  
+    ├── README.md          # library versions  
     ├── config/                  # YAML/JSON configs  
     │   ├── config_gan.yaml  
     │   └── config_diffusion.yaml   
@@ -103,7 +102,15 @@ python run_main_evaluate.py --config configs/config_diffusion.yaml --model_name 
 * [ ] Conditional GANs (e.g., pneumonia labels)
 * [ ] Train pre-trained GANs (e.g., StyleGAN2)
 ---
+### 📚 References
+* Gulrajani et al., “Improved Training of Wasserstein GANs,” arXiv preprint arXiv:1704.00028, 2017.
+[[Link](arXiv:1704.00028)]
+* Karras et al., “Training Generative Adversarial Networks with Limited Data,” arXiv preprint arXiv:2006.11239, 2020.
+[[Link](arXiv:2006.11239)]
 
+
+
+---
 ### 👨‍💻 Author
 
 **Ojaswita Lokre**  
