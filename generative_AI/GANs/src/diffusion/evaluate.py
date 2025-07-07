@@ -82,6 +82,7 @@ def evaluate_diffusion_stats(dataloader_real, device, cfg):
     # Setup
     num_real = len(dataloader_real.dataset)
     batch_size = dataloader_real.batch_size
+    num_batches = (num_real + batch_size - 1) // batch_size
 
     # Load trained generator
     model = UNet256(
@@ -96,8 +97,12 @@ def evaluate_diffusion_stats(dataloader_real, device, cfg):
     diffusion = Diffusion(T=cfg['diffusion']['T'], device=device)
 
     # Generate synthetic samples
+    fake_imgs = []
     with torch.no_grad():
-        fake_imgs = diffusion.sample(model, n=num_real).cpu()
+        for _ in range(num_batches):
+            fake = diffusion.sample(model, n=batch_size).cpu()
+            fake_imgs.append(fake)
+    fake_imgs = torch.cat(fake_imgs, dim=0)[:num_real]  # trim to match
     fake_loader = DataLoader(TensorDataset(fake_imgs), batch_size=batch_size, shuffle=False)
 
     # Initialize metrics

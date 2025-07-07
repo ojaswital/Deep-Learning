@@ -59,7 +59,7 @@ def main(config_path: str):
     elif model_name == 'diffusion':
         print("--- Evaluating Diffusion model ---")
         loss_vals = evaluate_diffusion_stats(
-            dataloader=dataloader,
+            dataloader_real=dataloader,
             device=device,
             cfg=cfg
         )
@@ -76,4 +76,4 @@ if __name__ == '__main__':
         help='Path to YAML configuration file'
     )
     args = parser.parse_args()
-    main(args.config, args.model)
+    main(args.config)

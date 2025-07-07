@@ -73,15 +73,15 @@ Edit the `configs/config_wgan.yaml` or `configs/configs_diffusion.yaml` to chang
 #### ✅ Train WGAN-GP or DDPM
 
 ```bash
-python run_main_train.py --config configs/config_wgan.yaml --model_name wgan
-python run_main_train.py --config configs/config_diffusion.yaml --model_name diffusion
+python run_main_train.py --config configs/config_wgan.yaml
+python run_main_train.py --config configs/config_diffusion.yaml
 ```
 
 #### 📊 Evaluate Model
 
 ```bash
-python run_main_evaluate.py --config configs/config_wgan.yaml --model_name wgan
-python run_main_evaluate.py --config configs/config_diffusion.yaml --model_name diffusion
+python run_main_evaluate.py --config configs/config_wgan.yaml
+python run_main_evaluate.py --config configs/config_diffusion.yaml
 ```
 
 ---
