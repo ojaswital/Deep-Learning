@@ -130,7 +130,7 @@ def evaluate_wgan_stats(dataloader_real, device, cfg):
     emd = wasserstein_distance(real_pixels, fake_pixels)
 
     # Display results
-    print("=== GAN Statistical Evaluation ===")
+    print("--- GAN Statistical Evaluation ---")
     print(f"FID Score:            {fid_score:.4f}")
     print(f"KID Score:            {kid_score:.4f} (\u00b1{kid_std.item():.4f})")
     print(f"KS Statistic:         {ks_stat:.4f}, p-value: {ks_p:.4e}")
@@ -144,6 +144,7 @@ def evaluate_wgan_stats(dataloader_real, device, cfg):
         "EMD": emd
     }
     pd.DataFrame([metrics]).to_csv(os.path.join(results_dir, "metrics.csv"), index=False)
+    print("--- GAN Statistical Evaluation metrics saved---")
 
     # Plot pixel distributions
     plt.figure(figsize=(6, 4))
@@ -162,6 +163,7 @@ def evaluate_wgan_stats(dataloader_real, device, cfg):
     plt.title("Q–Q Plot of Fake vs. Real Pixels")
     plt.savefig(os.path.join(results_dir, "Q-Q_Plot.png"), dpi=300, bbox_inches='tight', pad_inches=0)
     plt.close()
+    print("--- GAN Statistical Evaluation plots saved ---")
 
     return fake_loader
 

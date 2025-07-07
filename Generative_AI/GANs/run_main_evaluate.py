@@ -45,11 +45,13 @@ def main(config_path: str, model_name: str):
         num_workers=ds_cfg['num_workers'],
         pin_memory=ds_cfg['pin_memory']
     )
+    print("--- Test Dataset Loaded ---")
 
     # ------------------------
     # Model Evaluation
     # ------------------------
     if model_name == 'wgan':
+        print("--- Evaluating WGAN GP model ---")
         fake_loader = evaluate_wgan_stats(
             dataloader_real=dataloader,
             device=device,
@@ -57,6 +59,7 @@ def main(config_path: str, model_name: str):
         )
         visualize_data(next(iter(fake_loader)), os.path.join(cfg['save']['save_dir'], cfg['save']['checkpoints_folder'], cfg['output']['results_folder']))
     elif model_name == 'diffusion':
+        print("--- Evaluating Diffusion model ---")
         loss_vals = evaluate_diffusion_stats(
             dataloader=dataloader,
             device=device,

@@ -51,12 +51,14 @@ def main(config_path: str, model_name: str):
     # ------------------------
     save_dir = os.path.join(cfg['save']['save_dir'], cfg['save']['checkpoints_folder'])
     visualize_data(next(iter(dataloader)), save_dir)
+    print("--- Train Dataset Loaded ---")
 
     # ------------------------
     # Model Training
     # ------------------------
     if model_name == 'wgan':
         # Train Wasserstein GAN with gradient penalty
+        print("--- Training WGAN GP model ---")
         lossD_vals, lossG_vals = train_wgan_gp(
             dataloader=dataloader,
             device=device,
@@ -64,6 +66,7 @@ def main(config_path: str, model_name: str):
         )
     elif model_name == 'diffusion':
         # Train denoising diffusion probabilistic model
+        print("--- Training Diffusion model ---")
         loss_vals = train_diffusion(
             dataloader=dataloader,
             device=device,
