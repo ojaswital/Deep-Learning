@@ -112,7 +112,6 @@ python run_main_evaluate.py --config configs/config_diffusion.yaml
 
 ---
 ### 👨‍💻 Author
-
 **Ojaswita Lokre**  
 [LinkedIn](https://www.linkedin.com/in/ojaswita-lokre-a77031159/)  
 [Google Scholar](https://scholar.google.com/citations?user=Y6kAyBEAAAAJ&hl=en&oi=ao)
