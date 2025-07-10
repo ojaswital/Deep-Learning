@@ -1,0 +1,17 @@
+Patient: John Doe
+DOB: 1972-05-14
+Visit Date: 2024-06-20
+
+Chief Complaint:
+Patient reports shortness of breath and productive cough.
+
+Assessment:
+Findings consistent with community-acquired pneumonia. Chest X-ray showed right lower lobe consolidation.
+
+Labs:
+WBC elevated at 15.2 x10^9/L
+CRP elevated
+
+Plan:
+Started on amoxicillin 500mg TID for 7 days. Advised rest and hydration.
+Follow-up in 1 week.

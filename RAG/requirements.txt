@@ -1,0 +1,14 @@
+# Core
+openai
+google-generativeai # Gemini API
+faiss-cpu # Local vector search
+python-dotenv #Load .env for API keys
+
+# Optional UI
+streamlit # UI for Q&A (optional)
+
+# Utilities
+tqdm
+numpy
+pandas
+biopython
